@@ -8,4 +8,11 @@ pipeline {
             }
         }
     }
+    stage('Installing packages') {
+            steps {
+                git branch: 'feature_jenfile', url: 'https://github.com/vaishnavbalodhi/EMP-Portal-Project-DevOps.git'
+                sh 'pip install -r requirements.txt'
+                sh 'python3 app.py'
+            }
+        }
 }
