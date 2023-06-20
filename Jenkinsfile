@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Installing packages') {
             steps {
-                sh 'sudo apt install python3-pip'
+                // sh 'sudo apt install python3-pip'
                 sh 'pip install -r requirements.txt'
             }
          }
