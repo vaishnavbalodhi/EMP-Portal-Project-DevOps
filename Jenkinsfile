@@ -16,7 +16,7 @@ pipeline {
         stage('pylint testing') {
             steps {
                 sh 'pip install pylint'
-                // sh 'pylint app.py'
+                sh 'pylint app.py'
             }
          }
     }
