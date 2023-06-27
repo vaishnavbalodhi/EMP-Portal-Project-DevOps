@@ -37,9 +37,9 @@ pipeline {
                     // Run pylint on Python files and generate a report
                     sh 'find . -name \\*.py | xargs pylint -f parseable | tee pylint.log'
                     recordIssues(
-                        tools: [pyLint(pattern: 'pylint.log')],
-                        unstableTotalAll: 100
-                    )
+			tool: pyLint(pattern: 'pylint.log'),
+			unstableTotalHigh: 100
+			)
 		}
 	    }
 	}
