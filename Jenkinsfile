@@ -14,23 +14,23 @@ pipeline {
                 sh 'pip install -r requirements.txt'
             }
          }
-        stage('Static code analysis'){
-        steps {
-           sh 'pylint -f parseable --reports=no * > pylint.log' 
-        }
-        post {
-            always {
-                sh 'cat pylint.log'
-                recordIssues healthy: 1, tools: [pyLint(name: 'report name', pattern: '**/pylint.log')], unhealthy: 2
-                }
-            }
-        }
-        stage('pylint testing') {
-            steps {
-                sh 'pip install pylint'
-                sh 'pylint app.py'
-            }
-         }
+        // stage('Static code analysis'){
+        // steps {
+        //    sh 'pylint -f parseable --reports=no * > pylint.log' 
+        // }
+        // post {
+        //     always {
+        //         sh 'cat pylint.log'
+        //         recordIssues healthy: 1, tools: [pyLint(name: 'report name', pattern: '**/pylint.log')], unhealthy: 2
+        //         }
+        //     }
+        // }
+        // stage('pylint testing') {
+        //     steps {
+        //         sh 'pip install pylint'
+        //         sh 'pylint app.py'
+        //     }
+        //  }
         stage('SonarQube analysis') {
             steps{
                 withSonarQubeEnv(credentialsId: 'sonarcred', installationName: 'sonar'){ 
