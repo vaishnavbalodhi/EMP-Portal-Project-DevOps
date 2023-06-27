@@ -31,6 +31,12 @@ pipeline {
                 sh 'pylint app.py'
             }
          }
+        stage('SonarQube analysis') {
+            def scannerHome = tool 'SonarScanner 4.0';
+                withSonarQubeEnv(credentialsId: 'sonarcred'){ 
+                  sh "${scannerHome}/bin/sonar-scanner"
+            }
+          }
     }
     post{
         always{
