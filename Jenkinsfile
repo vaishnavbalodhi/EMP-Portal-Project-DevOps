@@ -31,6 +31,18 @@ pipeline {
         //         sh 'pylint app.py'
         //     }
         //  }
+        stage('Static code analysis') {
+		    steps {
+			    script {
+				    sh 'find . -name \\*.py | xargs pylint .f parseable | tee pylint.log'
+				    recordIssues(
+					    tool: pyLint(pattern: 'pylint.log'),
+					    unstableTotalHigh: 100
+					    )
+			    }
+		    }
+	    }
+
         stage('SonarQube analysis') {
             steps{
                 withSonarQubeEnv(credentialsId: 'sonarcred', installationName: 'sonar'){ 
