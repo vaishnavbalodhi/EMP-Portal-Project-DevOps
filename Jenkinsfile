@@ -32,11 +32,15 @@ pipeline {
             }
          }
         stage('SonarQube analysis') {
-            def scannerHome = tool 'SonarScanner 4.0';
+            tools{
+                def scannerHome = tool 'SonarScanner 4.0';
+            }
+            steps{
                 withSonarQubeEnv(credentialsId: 'sonarcred'){ 
                   sh "${scannerHome}/bin/sonar-scanner"
+                }
             }
-          }
+        }
     }
     post{
         always{
