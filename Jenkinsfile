@@ -31,16 +31,18 @@ pipeline {
         //         sh 'pylint app.py'
         //     }
         //  }
-        stage('Static code analysis') {
-		steps {
-			script {
-				sh 'find . -name \\*.py | xargs pylint .f parseable | tee pylint.log'
-				recordIssues(
-					tool: pyLint(pattern: 'pylint.log'),
-					unstableTotalHigh: 100
-				)
-			}
+        stage('Static Code Checking') {
+            steps {
+                script {
+                    // Run pylint on Python files and generate a report
+                    sh 'find . -name \\*.py | xargs pylint -f parseable | tee pylint.log'
+                    recordIssues(
+                        tools: [pyLint(pattern: 'pylint.log')],
+                        unstableTotalAll: 100
+                    )
 		}
+	    }
+	}
         stage('SonarQube analysis') {
             steps{
                 withSonarQubeEnv(credentialsId: 'sonarcred', installationName: 'sonar'){ 
