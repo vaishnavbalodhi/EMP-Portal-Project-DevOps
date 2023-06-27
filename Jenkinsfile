@@ -41,8 +41,6 @@ pipeline {
 				)
 			}
 		}
-	 }
-    }
         stage('SonarQube analysis') {
             steps{
                 withSonarQubeEnv(credentialsId: 'sonarcred', installationName: 'sonar'){ 
