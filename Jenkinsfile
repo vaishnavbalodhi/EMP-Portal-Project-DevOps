@@ -32,11 +32,8 @@ pipeline {
             }
          }
         stage('SonarQube analysis') {
-            tools{
-                sonarQube 'SonarQube Scanner 4.0'
-            }
             steps{
-                withSonarQubeEnv(credentialsId: 'sonarcred'){ 
+                withSonarQubeEnv(credentialsId: 'sonarcred', installationName: 'sonar')){ 
                   sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
