@@ -47,7 +47,11 @@ pipeline {
             steps{
                 script{
 			withSonarQubeEnv(credentialsId: 'sonarcred'){ 
-                  		sh "${scannerHome}/bin/sonar-scanner"
+                  		sh '''${scannerHome}/bin/sonar-scanner \
+  				-Dsonar.projectKey=DevOps-Project \
+  				-Dsonar.sources=. \
+  				-Dsonar.host.url=http://13.232.31.123 \
+  				-Dsonar.login=t1'''
                 	}
 		}
             }
