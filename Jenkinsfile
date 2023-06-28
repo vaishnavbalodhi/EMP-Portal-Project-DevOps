@@ -45,9 +45,11 @@ pipeline {
 	}
         stage('SonarQube analysis') {
             steps{
-                withSonarQubeEnv(credentialsId: 'sonarcred', installationName: 'sonar'){ 
-                  sh "${scannerHome}/bin/sonar-scanner"
-                }
+                script{
+			withSonarQubeEnv(credentialsId: 'sonarcred'){ 
+                  		sh "${scannerHome}/bin/sonar-scanner"
+                	}
+		}
             }
         }
     }
