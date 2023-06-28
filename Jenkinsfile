@@ -46,7 +46,7 @@ pipeline {
         stage('SonarQube analysis') {
             steps{
                 script{
-			withSonarQubeEnv(credentialsId: 'sonarcred'){ 
+			withSonarQubeEnv('sonar'){ 
                   		sh '''${scannerHome}/bin/sonar-scanner \
   				-Dsonar.projectKey=DevOps-Project \
   				-Dsonar.sources=. \
