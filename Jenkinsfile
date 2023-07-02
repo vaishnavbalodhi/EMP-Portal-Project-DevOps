@@ -46,12 +46,13 @@ pipeline {
         stage('SonarQube analysis') {
             steps{
                 script{
+			def scannerHome = tool "sonar-server";
 			withSonarQubeEnv('sonar'){ 
                   		sh '''${scannerHome}/bin/sonar-scanner \
   				-Dsonar.projectKey=DevOps-Project \
   				-Dsonar.sources=. \
-  				-Dsonar.host.url=http://13.232.31.123 \
-  				-Dsonar.login=t1'''
+  				-Dsonar.host.url=http://43.205.199.215 \
+  				-Dsonar.login=e8cde7969a59e4a42913c5820adeb29cc094eedc'''
                 	}
 		}
             }
