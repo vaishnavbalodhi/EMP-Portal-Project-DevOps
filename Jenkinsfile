@@ -51,8 +51,7 @@ pipeline {
 				sh 'sudo su'
                   		sh '''${scannerHome}/bin/sonar-scanner \
   				-Dsonar.projectKey=DevOps-Project \
-  				-Dsonar.sources=${env.WORKSPACE} \
-      				-Dsonar.python.coverage.reportPaths=coverage.xml \
+  				-Dsonar.sources=. \
   				-Dsonar.host.url=http://43.205.199.215 \
   				-Dsonar.login=e8cde7969a59e4a42913c5820adeb29cc094eedc'''
                 	}
