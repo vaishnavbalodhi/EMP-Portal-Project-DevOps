@@ -31,18 +31,18 @@ pipeline {
         //         sh 'pylint app.py'
         //     }
         //  }
- //        stage('Static Code Checking') {
- //            steps {
- //                script {
- //                    // Run pylint on Python files and generate a report
- //                    sh 'find . -name \\*.py | xargs pylint -f parseable | tee pylint.log'
- //                    recordIssues(
-	// 		tool: pyLint(pattern: 'pylint.log'),
-	// 		unstableTotalHigh: 100
-	// 		)
-	// 	}
-	//     }
-	// }
+        stage('Static Code Checking') {
+            steps {
+                script {
+                    // Run pylint on Python files and generate a report
+                    sh 'find . -name \\*.py | xargs pylint -f parseable | tee pylint.log'
+                    recordIssues(
+			tool: pyLint(pattern: 'pylint.log'),
+			unstableTotalHigh: 100
+			)
+		}
+	    }
+	}
         stage('SonarQube analysis') {
             steps{
                 script{
@@ -57,13 +57,13 @@ pipeline {
 		}
             }
         }
-	// stage("Quality Gate Analysis"){
- //            steps {
- //                script {
- //                   waitForQualityGate abortPipeline: false, credentialsId: 'sonarcred' 
- //                }
- //            }
- //        }
+	stage("Quality Gate Analysis"){
+            steps {
+                script {
+                   waitForQualityGate abortPipeline: false, credentialsId: 'sonarcred' 
+                }
+            }
+        }
     }
     post{
         always{
