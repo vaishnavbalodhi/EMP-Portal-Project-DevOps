@@ -25,12 +25,6 @@ pipeline {
         //         }
         //     }
         // }
-        // stage('pylint testing') {
-        //     steps {
-        //         sh 'pip install pylint'
-        //         sh 'pylint app.py'
-        //     }
-        //  }
         stage('Static Code Checking') {
             steps {
                 script {
