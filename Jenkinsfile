@@ -60,7 +60,9 @@ pipeline {
 	stage("Quality Gate Analysis"){
             steps {
                 script {
-                   waitForQualityGate abortPipeline: false, credentialsId: 'sonarcred' 
+			withSonarQubeEnv('sonar'){
+                   		waitForQualityGate abortPipeline: false, credentialsId: 'sonarcred'
+			}
                 }
             }
         }
