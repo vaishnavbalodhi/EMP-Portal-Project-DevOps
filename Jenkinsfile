@@ -52,7 +52,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonar') {
-                        timeout(time: 1, unit: 'MINUTES') {
+                        timeout(time: 5, unit: 'MINUTES') {
                             // Wait for SonarQube quality gates to pass/fail
                             def qg = waitForQualityGate()
                             if (qg.status != 'OK') {
