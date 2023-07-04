@@ -1,4 +1,7 @@
 pipeline {
+        environment {
+        scannerHome = tool 'sonar-scan'
+    }
     agent any
 
     stages {
