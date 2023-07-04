@@ -51,12 +51,27 @@ pipeline {
 		}
             }
         }
-	stage("Quality Gate Analysis"){
+	// stage("Quality Gate Analysis"){
+ //            steps {
+ //                script {
+	// 		withSonarQubeEnv('sonar'){
+ //                   		waitForQualityGate abortPipeline: false, credentialsId: 'sonarcred'
+	// 		}
+ //                }
+ //            }
+ //        }
+	stage('SonarQube Quality Gates') {
             steps {
                 script {
-			withSonarQubeEnv('sonar'){
-                   		waitForQualityGate abortPipeline: false, credentialsId: 'sonarcred'
-			}
+                    withSonarQubeEnv('sonar') {
+                        timeout(time: 1, unit: 'MINUTES') {
+                            // Wait for SonarQube quality gates to pass/fail
+                            def qg = waitForQualityGate()
+                            if (qg.status != 'OK') {
+                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            }
+                        }
+                    }
                 }
             }
         }
