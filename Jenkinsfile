@@ -1,5 +1,5 @@
 pipeline {
-        environment {
+    environment {
         scannerHome = tool 'sonar-scan'
     }
     agent any
@@ -8,11 +8,12 @@ pipeline {
         stage('git checkout') {
             steps {
                 checkout(
-                    scmGit(
+                    scm: [
+                        $class: 'GitSCM',
                         branches: [[name: '*/feature_jenfile']],
                         extensions: [],
                         userRemoteConfigs: [[url: 'https://github.com/vaishnavbalodhi/EMP-Portal-Project-DevOps.git']]
-                    )
+                    ]
                 )
             }
         }
@@ -28,9 +29,9 @@ pipeline {
             steps {
                 script {
                     // Run pylint on Python files and generate a report
-                    sh 'find . -name \\*.py | xargs pylint -f parseable | tee pylint.log'
+                    sh 'find . -name "*.py" | xargs pylint -f parseable | tee pylint.log'
                     recordIssues(
-                        tool: pyLint(pattern: 'pylint.log'),
+                        tools: [pyLint(pattern: 'pylint.log')],
                         unstableTotalHigh: 100
                     )
                 }
@@ -48,13 +49,15 @@ pipeline {
             }
         }
 
-        stage("Quality Gate"){
-            timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
-            def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
-            if (qg.status != 'OK') {
-                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, the pipeline will be killed after a timeout
+                    def qg = waitForQualityGate() // Reuse the taskId previously collected by withSonarQubeEnv
+                    if (qg.status != 'OK') {
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                    }
+                }
             }
-          }
         }
     }
 }
