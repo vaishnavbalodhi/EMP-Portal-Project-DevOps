@@ -37,18 +37,30 @@ pipeline {
 		}
 	    }
 	}
-        stage('SonarQube analysis') {
-            steps{
-                script{
-			def scannerHome = tool "sonar-scan";
-			withSonarQubeEnv('sonar'){ 
-				sh 'sudo su'
-                  		sh "${scannerHome}/bin/sonar-scanner \
-  				-Dsonar.projectKey=DevOps-Project \
-  				-Dsonar.sources=${env.WORKSPACE} \
-  				-Dsonar.login=e8cde7969a59e4a42913c5820adeb29cc094eedc"
-                	}
-		}
+  //       stage('SonarQube analysis') {
+  //           steps{
+  //               script{
+		// 	def scannerHome = tool "sonar-scan";
+		// 	withSonarQubeEnv('sonar'){ 
+		// 		sh 'sudo su'
+  //                 		sh "${scannerHome}/bin/sonar-scanner \
+  // 				-Dsonar.projectKey=DevOps-Project \
+  // 				-Dsonar.sources=${env.WORKSPACE} \
+  // 				-Dsonar.login=e8cde7969a59e4a42913c5820adeb29cc094eedc"
+  //               	}
+		// }
+  //           }
+  //       }
+	    stage('SonarQube Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('sonar') {
+                        // Run SonarQube scanner for code analysis
+                        sh '''${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=DevOps-Project \
+                            -Dsonar.sources=.'''
+                    }
+                }
             }
         }
 	// stage("Quality Gate Analysis"){
