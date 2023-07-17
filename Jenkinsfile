@@ -88,7 +88,7 @@ pipeline {
         stage('Push To DockerHub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                    docker.withRegistry('https://hub.docker.com/r/vaishnav1/devops_project', registryCredential) {
                         // Push Docker image to DockerHub
                         dockerImage.push()
                     }
