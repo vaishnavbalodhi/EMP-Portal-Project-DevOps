@@ -85,7 +85,7 @@ pipeline {
                 }
             }
         }
-    stage('Push To DockerHub') {
+        stage('Push To DockerHub') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
@@ -95,7 +95,6 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy to containers') {
             steps {
                 // Deploy Docker image to containers
