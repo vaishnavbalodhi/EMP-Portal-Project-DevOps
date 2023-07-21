@@ -98,7 +98,7 @@ pipeline {
         stage('Deploy to containers') {
             steps {
                 // Deploy Docker image to containers
-                sh label: '', script: "docker run --name ${JOB_NAME} -p 5000:5000 ${img}"
+                sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5005:5005 ${img}"
             }
         }
     }
