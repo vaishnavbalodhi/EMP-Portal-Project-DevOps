@@ -104,19 +104,12 @@ pipeline {
         stage('Deploy to Kubernetes EKS') {
             steps {
                 script {
-                    // Print the contents of the workspace directory
-                    sh 'ls -R'
-
-                    // Retrieve the selected target cluster
-                    def kubeconfig
                     def clusterName = "eks-deployment-cluster"
                     
-                    withCredentials([file(credentialsId: kubeconfig, variable: 'KUBECONFIG')]) {
-                        sh "kubectl config view --kubeconfig=$KUBECONFIG" // View Kubernetes configuration
-                        sh "kubectl get namespaces --kubeconfig=$KUBECONFIG" // Get Kubernetes namespaces
+                    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kubeconfig', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
                         sh "sed -i 's|\${ENV_IMAGE}|${img}|g' dev/deployment.yaml" // Replace placeholder with Docker image name in deployment.yaml
-                        sh "kubectl apply -f ${clusterName}/deployment.yaml --kubeconfig=$KUBECONFIG" // Apply deployment configuration
-                        sh "kubectl apply -f ${clusterName}/service.yaml --kubeconfig=$KUBECONFIG" // Apply service configuration
+                        sh "kubectl apply -f ${clusterName}/deployment.yaml" // Apply deployment configuration
+                        sh "kubectl apply -f ${clusterName}/service.yaml" // Apply service configuration
                     }
                 }
             }
