@@ -101,6 +101,26 @@ pipeline {
                 sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5002:5000 ${img}"
             }
         }
+        stage('Deploy to Kubernetes EKS') {
+            steps {
+                script {
+                    // Print the contents of the workspace directory
+                    sh 'ls -R'
+
+                    // Retrieve the selected target cluster
+                    def kubeconfig
+                    def clusterName = "eks-deployment-cluster"
+                    
+                    withCredentials([file(credentialsId: kubeconfig, variable: 'KUBECONFIG')]) {
+                        sh "kubectl config view --kubeconfig=$KUBECONFIG" // View Kubernetes configuration
+                        sh "kubectl get namespaces --kubeconfig=$KUBECONFIG" // Get Kubernetes namespaces
+                        sh "sed -i 's|\${ENV_IMAGE}|${img}|g' dev/deployment.yaml" // Replace placeholder with Docker image name in deployment.yaml
+                        sh "kubectl apply -f ${clusterName}/deployment.yaml --kubeconfig=$KUBECONFIG" // Apply deployment configuration
+                        sh "kubectl apply -f ${clusterName}/service.yaml --kubeconfig=$KUBECONFIG" // Apply service configuration
+                    }
+                }
+            }
+        }
     }
     post{
         always{
