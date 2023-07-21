@@ -104,12 +104,12 @@ pipeline {
         stage('Deploy to Kubernetes EKS') {
             steps {
                 script {
-                    def clusterName = "eks-deployment-cluster"
+                    // def clusterName = "eks-deployment-cluster"
                     
-                    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kubeconfig', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                    withKubeConfig(caCertificate: '', clusterName: 'eks-deployment-cluster', contextName: '', credentialsId: 'kubeconfig', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
                         sh "sed -i 's|\${ENV_IMAGE}|${img}|g' dev/deployment.yaml" // Replace placeholder with Docker image name in deployment.yaml
-                        sh "kubectl apply -f ${clusterName}/deployment.yaml" // Apply deployment configuration
-                        sh "kubectl apply -f ${clusterName}/service.yaml" // Apply service configuration
+                        sh "kubectl apply -f deployment.yaml" // Apply deployment configuration
+                        sh "kubectl apply -f service.yaml" // Apply service configuration
                     }
                 }
             }
