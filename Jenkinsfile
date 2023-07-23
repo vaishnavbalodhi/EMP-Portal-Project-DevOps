@@ -101,26 +101,12 @@ pipeline {
                 sh label: '', script: "docker run -it -d --name ${JOB_NAME} -p 5000:5000 ${img}"
             }
         }
-        stage('Deploy to Kubernetes EKS') {
-            steps {
-                script {
-                    withKubeConfig(caCertificate: '', clusterName: 'eks-deployment-cluster', contextName: '', credentialsId: 'kubeconfig', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-                        sh "kubectl apply -f deployment.yaml" // Apply deployment configuration
-                        sh "kubectl apply -f service.yaml" // Apply service configuration
-                    }
-                }
-            }
-        }
-        // stage('Deploy to Kubernetes AKS') {
+        // stage('Deploy to Kubernetes EKS') {
         //     steps {
         //         script {
-        //             // Retrieve the selected target cluster
-        //             def kubeconfig
-
-        //             withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-        //                 sh "sed -i 's|\${ENV_IMAGE}|${img}|g' deployment.yaml" // Replace placeholder with Docker image name in deployment.yaml
-        //                 sh "kubectl apply -f deployment.yaml --kubeconfig=$KUBECONFIG" // Apply deployment configuration
-        //                 sh "kubectl apply -f service.yaml --kubeconfig=$KUBECONFIG" // Apply service configuration
+        //             withKubeConfig(caCertificate: '', clusterName: 'eks-deployment-cluster', contextName: '', credentialsId: 'kubeconfig', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+        //                 sh "kubectl apply -f deployment.yaml" // Apply deployment configuration
+        //                 sh "kubectl apply -f service.yaml" // Apply service configuration
         //             }
         //         }
         //     }
