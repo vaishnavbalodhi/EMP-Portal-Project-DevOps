@@ -114,20 +114,20 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Deploy to Kubernetes AKS') {
-            steps {
-                script {
-                    // Retrieve the selected target cluster
-                    def kubeconfig
+        // stage('Deploy to Kubernetes AKS') {
+        //     steps {
+        //         script {
+        //             // Retrieve the selected target cluster
+        //             def kubeconfig
 
-                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                        sh "sed -i 's|\${ENV_IMAGE}|${img}|g' deployment.yaml" // Replace placeholder with Docker image name in deployment.yaml
-                        sh "kubectl apply -f deployment.yaml --kubeconfig=$KUBECONFIG" // Apply deployment configuration
-                        sh "kubectl apply -f service.yaml --kubeconfig=$KUBECONFIG" // Apply service configuration
-                    }
-                }
-            }
-        }
+        //             withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+        //                 sh "sed -i 's|\${ENV_IMAGE}|${img}|g' deployment.yaml" // Replace placeholder with Docker image name in deployment.yaml
+        //                 sh "kubectl apply -f deployment.yaml --kubeconfig=$KUBECONFIG" // Apply deployment configuration
+        //                 sh "kubectl apply -f service.yaml --kubeconfig=$KUBECONFIG" // Apply service configuration
+        //             }
+        //         }
+        //     }
+        // }
     }
     
     post{
