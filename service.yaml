@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: emp-portal-service
 spec:
-  type: NodePort
   selector:
     app: emp-portal
   ports:
-    - nodePort: 31479
+    - protocol: TCP
       port: 80
       targetPort: 5000
+  type: LoadBalancer 
