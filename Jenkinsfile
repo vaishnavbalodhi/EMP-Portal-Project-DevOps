@@ -75,7 +75,7 @@ pipeline {
                         sh 'pip install pytest'
                         sh 'pip install flask_sqlalchemy'
                         // Run pytest for unit testing
-                        sh 'pytest test_app.py'
+                        sh 'pytest EMP-Portal-Project-DevOps/test_app.py'
                     }
                 }
             }
