@@ -67,22 +67,23 @@ pipeline {
        //          }
        //      }
        //  }
-        // stage("Testing with pytest") {
-        //     steps {
-        //         script {
-        //             withPythonEnv('python3') {
-        //                 // Install required Python packages for testing
-        //                 // sh 'pip install pytest'
-        //                 sh 'pip install flask_sqlalchemy'
-        //                 // Run pytest for unit testing
-        //                 // sh 'pytest test_app.py'
-        //                 // sh 'pip3 --install --upgrade pip'
-        //                 sh 'pip3 install numpy pytest'
-        //                 sh 'python -m pytest test_app.py'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("Testing with pytest") {
+            steps {
+                script {
+                    withPythonEnv('python3') {
+                        // Install required Python packages for testing
+                        // sh 'pip install pytest'
+                        sh 'sudo apt install python3-pip'
+                        sh 'pip install flask_sqlalchemy'
+                        // Run pytest for unit testing
+                        // sh 'pytest test_app.py'
+                        // sh 'pip3 --install --upgrade pip'
+                        sh 'pip3 install numpy pytest'
+                        sh 'python -m pytest test_app.py'
+                    }
+                }
+            }
+        }
         stage ('Clean Up') {
             steps {
                 // Stop and remove Docker containers
