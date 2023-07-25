@@ -76,7 +76,7 @@ pipeline {
                         sh 'pip install flask_sqlalchemy'
                         // Run pytest for unit testing
                         // sh 'pytest test_app.py'
-                        sh 'pip3 --install --upgrade pip'
+                        // sh 'pip3 --install --upgrade pip'
                         sh 'pip3 install numpy pytest'
                         sh 'python -m pytest test_app.py'
                     }
