@@ -41,32 +41,32 @@ pipeline {
             }
         }
 
-       //  stage('SonarQube Analysis') {
-       //      steps {
-       //          script {
-       //              withSonarQubeEnv('sonar') {
-       //                  // Run SonarQube scanner for code analysis
-       //                  sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=DevOps-Project -Dsonar.sources=."
-       //              }
-       //          }
-       //      }
-       //  }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('sonar') {
+                        // Run SonarQube scanner for code analysis
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=DevOps-Project -Dsonar.sources=."
+                    }
+                }
+            }
+        }
 
-       // stage('SonarQube Quality Gates') {
-       //      steps {
-       //          script {
-       //              withSonarQubeEnv('sonar') {
-       //                  timeout(time: 1, unit: 'HOURS') {
-       //                      // Wait for SonarQube quality gates to pass/fail
-       //                      def qg = waitForQualityGate()
-       //                      if (qg.status != 'OK') {
-       //                          error "Pipeline aborted due to quality gate failure: ${qg.status}"
-       //                      }
-       //                  }
-       //              }
-       //          }
-       //      }
-       //  }
+       stage('SonarQube Quality Gates') {
+            steps {
+                script {
+                    withSonarQubeEnv('sonar') {
+                        timeout(time: 1, unit: 'MINUTES') {
+                            // Wait for SonarQube quality gates to pass/fail
+                            def qg = waitForQualityGate()
+                            if (qg.status != 'OK') {
+                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            }
+                        }
+                    }
+                }
+            }
+        }
         // stage("Testing with pytest") {
         //     steps {
         //         script {
