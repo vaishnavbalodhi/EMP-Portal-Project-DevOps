@@ -79,7 +79,7 @@ pipeline {
                         // sh 'pytest test_app.py'
                         // sh 'pip3 --install --upgrade pip'
                         sh 'pip3 install numpy pytest'
-                        sh 'python -m pytest test_app.py'
+                        sh 'python3 -m pytest test_app.py'
                     }
                 }
             }
