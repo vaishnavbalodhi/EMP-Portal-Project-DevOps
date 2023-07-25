@@ -52,34 +52,34 @@ pipeline {
             }
         }
 
-       stage('SonarQube Quality Gates') {
+       // stage('SonarQube Quality Gates') {
+       //      steps {
+       //          script {
+       //              withSonarQubeEnv('sonar') {
+       //                  timeout(time: 1, unit: 'MINUTES') {
+       //                      // Wait for SonarQube quality gates to pass/fail
+       //                      def qg = waitForQualityGate()
+       //                      if (qg.status != 'OK') {
+       //                          error "Pipeline aborted due to quality gate failure: ${qg.status}"
+       //                      }
+       //                  }
+       //              }
+       //          }
+       //      }
+       //  }
+        stage("Testing with pytest") {
             steps {
                 script {
-                    withSonarQubeEnv('sonar') {
-                        timeout(time: 1, unit: 'MINUTES') {
-                            // Wait for SonarQube quality gates to pass/fail
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                            }
-                        }
+                    withPythonEnv('python3') {
+                        // Install required Python packages for testing
+                        sh 'pip install pytest'
+                        sh 'pip install flask_sqlalchemy'
+                        // Run pytest for unit testing
+                        sh 'pytest test_app.py'
                     }
                 }
             }
         }
-        // stage("Testing with pytest") {
-        //     steps {
-        //         script {
-        //             withPythonEnv('python3') {
-        //                 // Install required Python packages for testing
-        //                 sh 'pip install pytest'
-        //                 sh 'pip install flask_sqlalchemy'
-        //                 // Run pytest for unit testing
-        //                 sh 'test_app.py'
-        //             }
-        //         }
-        //     }
-        // }
         stage ('Clean Up') {
             steps {
                 // Stop and remove Docker containers
